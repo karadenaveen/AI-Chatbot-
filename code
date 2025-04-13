@@ -1,0 +1,13 @@
+from langchain_community.vectorstores import FAISS
+from langchain_huggingface import HuggingFaceEmbeddings  # Updated import
+
+# Load the embeddings model
+embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
+# Load the FAISS index (with deserialization flag)
+faiss_store = FAISS.load_local("vectorstore/db_faiss", embedding_model, allow_dangerous_deserialization=True)
+
+# Check stored documents
+retrieved_docs = faiss_store.similarity_search("Hello", k=3)
+for doc in retrieved_docs:
+    print(doc.page_content)
