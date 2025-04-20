@@ -27,6 +27,6 @@ Data Analysis: Pandas, Matplotlib, Seaborn
 
 Visualization: LLM-generated plots based on natural language queries
 
-# output
+# Result Show :
 
 ![Image](https://github.com/user-attachments/assets/f5415b24-20d7-4771-add9-969cb7b7fb8a)
