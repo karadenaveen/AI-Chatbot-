@@ -11,6 +11,7 @@ export default function Chat({ messages, onSend, sending }: Props) {
   const [text, setText] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
   const companyName = (import.meta.env.VITE_COMPANY_NAME as string) || 'CamelQ';
+  const helpdeskName = (import.meta.env.VITE_HELPDESK_NAME as string) || `${companyName} Help Desk`;
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -26,7 +27,7 @@ export default function Chat({ messages, onSend, sending }: Props) {
   return (
     <div className="main">
       <div className="header">
-        <div>{companyName} Chat</div>
+        <div>{companyName} Chat — {helpdeskName}</div>
       </div>
       <div className="chat">
         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -52,7 +53,7 @@ export default function Chat({ messages, onSend, sending }: Props) {
       </div>
       <div className="input">
         <textarea
-          placeholder="Ask about customers, orders, products..."
+          placeholder={`Ask ${helpdeskName} about customers, orders, products...`}
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => {

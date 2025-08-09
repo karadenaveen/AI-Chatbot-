@@ -12,6 +12,12 @@ export default function App() {
   const [schema, setSchema] = useState<Schema>({});
   const [sending, setSending] = useState(false);
 
+  const helpdeskName = (import.meta.env.VITE_HELPDESK_NAME as string) || 'CamelQ Help Desk';
+
+  useEffect(() => {
+    document.title = helpdeskName;
+  }, [helpdeskName]);
+
   const loadConversations = async () => {
     const list = await listConversations();
     setConversations(list);
