@@ -10,6 +10,7 @@ type Props = {
 export default function Chat({ messages, onSend, sending }: Props) {
   const [text, setText] = useState('');
   const bottomRef = useRef<HTMLDivElement>(null);
+  const companyName = (import.meta.env.VITE_COMPANY_NAME as string) || 'CamelQ';
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -25,7 +26,7 @@ export default function Chat({ messages, onSend, sending }: Props) {
   return (
     <div className="main">
       <div className="header">
-        <div>Chat</div>
+        <div>{companyName} Chat</div>
       </div>
       <div className="chat">
         <div style={{ display: 'flex', flexDirection: 'column' }}>

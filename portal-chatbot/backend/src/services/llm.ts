@@ -18,13 +18,13 @@ export async function proposeSqlAndAnswer(
   if (!client) {
     const proposedSql = naiveSqlHeuristic(userMessage);
     const assistantText = proposedSql
-      ? `I can run the following read-only SQL to answer your question:\n\n${"```sql\n" + proposedSql + "\n```"}`
-      : 'How can I help you explore the database? You can ask questions like "List the latest 10 orders" or "Show customers in the business segment".';
+      ? `I can run the following read-only SQL on ${env.COMPANY_NAME}'s database to answer your question:\n\n${"```sql\n" + proposedSql + "\n```"}`
+      : `How can I help you explore ${env.COMPANY_NAME}'s database? You can ask questions like "List the latest 10 orders" or "Show customers in the business segment".`;
     return { assistantText, proposedSql };
   }
 
   const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
-    { role: 'system', content: systemPrompt + '\n\nSCHEMA:\n' + schemaText },
+    { role: 'system', content: `${systemPrompt}\n\nCompany: ${env.COMPANY_NAME}\n\nSCHEMA:\n${schemaText}` },
     ...history.slice(-8).map((m) => ({ role: m.role, content: m.content } as any)),
     { role: 'user', content: userMessage },
   ];

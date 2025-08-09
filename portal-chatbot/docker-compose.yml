@@ -30,6 +30,7 @@ services:
       ALLOW_WRITES: ${ALLOW_WRITES:-false}
       AUTO_EXECUTE_SQL: ${AUTO_EXECUTE_SQL:-true}
       MAX_QUERY_ROWS: ${MAX_QUERY_ROWS:-200}
+      COMPANY_NAME: ${COMPANY_NAME:-CamelQ}
     depends_on:
       - mysql
     ports:
@@ -40,6 +41,7 @@ services:
     container_name: portal_frontend
     environment:
       VITE_API_BASE: http://backend:3001
+      VITE_COMPANY_NAME: ${VITE_COMPANY_NAME:-CamelQ}
     depends_on:
       - backend
     ports:

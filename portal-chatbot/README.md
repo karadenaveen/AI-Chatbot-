@@ -1,9 +1,9 @@
-## Company Portal Chatbot (MySQL-integrated)
+## CamelQ Portal Chatbot (MySQL-integrated)
 
-A full-stack portal chatbot that helps customers and employees interact with your company's MySQL data. Includes safe SQL execution, schema exploration, and optional LLM integration.
+A full-stack portal chatbot for CamelQ that helps customers and employees interact with CamelQ's MySQL data. Includes safe SQL execution, schema exploration, and optional LLM integration.
 
 ### Features
-- Chat UI for customers and employees
+- Chat UI for CamelQ customers and employees
 - MySQL integration with safe, read-only query execution by default
 - Automatic schema introspection and display
 - Optional LLM (OpenAI) to propose SQL and generate helpful responses
@@ -45,6 +45,7 @@ A full-stack portal chatbot that helps customers and employees interact with you
 
 ### Environment Variables
 See `.env.example` for all variables. Key ones:
+- `COMPANY_NAME` and `VITE_COMPANY_NAME`: set to `CamelQ` by default
 - `MYSQL_*`: MySQL connection
 - `OPENAI_API_KEY`: optional; enable LLM responses
 - `ALLOW_WRITES`: allow DML/DDL if `true` (default `false`)
@@ -55,19 +56,6 @@ See `.env.example` for all variables. Key ones:
 - Only SELECT/SHOW/DESCRIBE/EXPLAIN are allowed by default
 - Multi-statement and destructive commands are blocked
 - Limits are auto-applied and clamped to `MAX_QUERY_ROWS`
-
-### Project Structure
-```
-portal-chatbot/
-  backend/
-  frontend/
-  sql/
-  docker-compose.yml
-  .env.example
-```
-
-### Seed Data
-`sql/init.sql` creates sample business tables (`customers`, `orders`, `products`, `order_items`) and chat tables (`conversations`, `messages`).
 
 ### Notes
 - If `OPENAI_API_KEY` is unset, the assistant falls back to a simple templated response and does not generate SQL.

@@ -21,4 +21,5 @@ export const env = {
   ALLOW_WRITES: toBool(process.env.ALLOW_WRITES, false),
   AUTO_EXECUTE_SQL: toBool(process.env.AUTO_EXECUTE_SQL, true),
   MAX_QUERY_ROWS: toInt(process.env.MAX_QUERY_ROWS, 200),
+  COMPANY_NAME: process.env.COMPANY_NAME || 'CamelQ',
 };
