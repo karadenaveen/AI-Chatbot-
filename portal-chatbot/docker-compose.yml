@@ -1,0 +1,52 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:8.3
+    container_name: portal_mysql
+    command: ["mysqld", "--default-authentication-plugin=mysql_native_password"]
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB:-portal_db}
+      MYSQL_USER: ${MYSQL_USER:-portal_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-portal_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  backend:
+    build: ./backend
+    container_name: portal_backend
+    environment:
+      NODE_ENV: production
+      BACKEND_PORT: ${BACKEND_PORT:-3001}
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: ${MYSQL_USER:-portal_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-portal_password}
+      MYSQL_DB: ${MYSQL_DB:-portal_db}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ALLOW_WRITES: ${ALLOW_WRITES:-false}
+      AUTO_EXECUTE_SQL: ${AUTO_EXECUTE_SQL:-true}
+      MAX_QUERY_ROWS: ${MAX_QUERY_ROWS:-200}
+      COMPANY_NAME: ${COMPANY_NAME:-CamelQ}
+    depends_on:
+      - mysql
+    ports:
+      - "${BACKEND_PORT:-3001}:3001"
+
+  frontend:
+    build: ./frontend
+    container_name: portal_frontend
+    environment:
+      VITE_API_BASE: http://backend:3001
+      VITE_COMPANY_NAME: ${VITE_COMPANY_NAME:-CamelQ}
+      VITE_HELPDESK_NAME: ${VITE_HELPDESK_NAME:-CamelQ Help Desk}
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"
+
+volumes:
+  mysql_data:
