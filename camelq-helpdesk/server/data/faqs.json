@@ -1,0 +1,22 @@
+[
+  {
+    "question": "What is CamelQ?",
+    "answer": "CamelQ is a company helpdesk AI platform providing conversational support for your website visitors."
+  },
+  {
+    "question": "How can I contact CamelQ support?",
+    "answer": "You can reach us at support@camelq.com."
+  },
+  {
+    "question": "What pricing plans does CamelQ offer?",
+    "answer": "Pricing varies by features and usage. For the latest details, please contact sales@camelq.com."
+  },
+  {
+    "question": "Does CamelQ store conversation data?",
+    "answer": "Conversations can be stored to improve support quality. You can request deletion at any time per our privacy policy."
+  },
+  {
+    "question": "Is CamelQ GDPR compliant?",
+    "answer": "CamelQ follows industry best practices for data protection and offers features to help with GDPR compliance."
+  }
+]
