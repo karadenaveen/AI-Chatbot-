@@ -19,11 +19,17 @@ function cleanHtmlToDoc(html, url){
 	return { url, title, text };
 }
 
+function hostsEquivalent(a, b){
+	const na = (a||'').toLowerCase().replace(/^www\./,'');
+	const nb = (b||'').toLowerCase().replace(/^www\./,'');
+	return na === nb;
+}
+
 function normalizeUrl(baseUrl, href){
 	try{
 		const u = new URL(href, baseUrl);
 		const base = new URL(baseUrl);
-		if(u.host !== base.host) return null;
+		if(!hostsEquivalent(u.host, base.host)) return null;
 		u.hash = '';
 		return u.toString();
 	}catch{ return null; }
