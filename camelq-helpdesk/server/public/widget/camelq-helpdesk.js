@@ -19,9 +19,19 @@
 
   let sessionId = null; let sending = false;
 
-  function addMessage(role, text){
-    const m = el('div', 'camelq-msg ' + (role==='user'?'camelq-msg-user':'camelq-msg-assistant'));
-    m.textContent = text; messages.appendChild(m); scrollToBottom(messages);
+  function addMessage(role, text, sources){
+    const wrap = el('div', 'camelq-msg ' + (role==='user'?'camelq-msg-user':'camelq-msg-assistant'));
+    const div = el('div'); div.textContent = text; wrap.appendChild(div);
+    if(role==='assistant' && Array.isArray(sources) && sources.length){
+      const s = el('div','camelq-sources');
+      s.textContent = 'Sources: ';
+      sources.slice(0,3).forEach((src, i)=>{
+        const a = el('a'); a.href = src.url; a.target = '_blank'; a.rel='noopener noreferrer'; a.textContent = src.title || src.url || 'link';
+        s.appendChild(a); if(i < Math.min(3, sources.length)-1){ s.appendChild(document.createTextNode(' · ')); }
+      });
+      wrap.appendChild(s);
+    }
+    messages.appendChild(wrap); scrollToBottom(messages);
   }
 
   async function sendMessage(){
@@ -35,7 +45,7 @@
       });
       const data = await res.json();
       if(data.sessionId) sessionId = data.sessionId;
-      addMessage('assistant', data.reply || 'Sorry, I had trouble responding.');
+      addMessage('assistant', data.reply || 'Sorry, I had trouble responding.', data.sources || []);
     }catch(e){ addMessage('assistant','Network error.'); }
     finally{ sending=false; }
   }
