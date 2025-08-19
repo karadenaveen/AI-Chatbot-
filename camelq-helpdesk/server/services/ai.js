@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
+import { retrieveRelevantChunks } from './embeddings.js';
 
 dotenv.config();
 
@@ -47,11 +48,16 @@ function retrieveTopFaqs(query, limit = 5) {
 
 export async function generateAssistantReply({ sessionId, message, history }) {
   const topFaqs = retrieveTopFaqs(message, 6);
+  const retrieved = await retrieveRelevantChunks(message, { topK: 6 });
 
-  const systemPrompt = `You are CamelQ's AI Helpdesk assistant. Be concise, friendly, and factual. If unsure, ask a clarifying question. Use the provided knowledge when relevant. If a policy or pricing is unknown, recommend contacting support at support@camelq.com.`;
+  const systemPrompt = `You are CamelQ's AI Helpdesk assistant. Be concise, friendly, and factual. If unsure, ask a clarifying question. Prefer citing or paraphrasing the provided CamelQ website context. If a policy or pricing is unknown, recommend contacting support at support@camelq.com.`;
 
-  const kbContext = topFaqs
-    .map((f, i) => `Q${i + 1}: ${f.question}\nA${i + 1}: ${f.answer}`)
+  const kbFaqContext = topFaqs
+    .map((f, i) => `FAQ${i + 1} Q: ${f.question}\nFAQ${i + 1} A: ${f.answer}`)
+    .join('\n\n');
+
+  const siteContext = (retrieved || [])
+    .map((c, i) => `DOC${i + 1} Title: ${c.title || ''}\nDOC${i + 1} URL: ${c.url || ''}\nDOC${i + 1} Excerpt: ${c.text}`)
     .join('\n\n');
 
   if (!hasApiKey) {
@@ -66,8 +72,12 @@ export async function generateAssistantReply({ sessionId, message, history }) {
     { role: 'system', content: systemPrompt },
   ];
 
-  if (kbContext) {
-    messages.push({ role: 'system', content: `CamelQ Knowledge:\n\n${kbContext}` });
+  if (kbFaqContext) {
+    messages.push({ role: 'system', content: `FAQs:\n\n${kbFaqContext}` });
+  }
+
+  if (siteContext) {
+    messages.push({ role: 'system', content: `CamelQ Site Context:\n\n${siteContext}` });
   }
 
   for (const m of history || []) {
