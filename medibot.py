@@ -19,15 +19,15 @@ st.set_page_config(page_title="AI Help Chatbot", page_icon="🤖", layout="wide"
 # Sidebar
 with st.sidebar:
     st.title("Naveenkumar Help Desk")
-    st.title("🔍 AI Chatbot Settings")
-    st.markdown("### ⚙️ Configuration")
+    st.title(" AI Chatbot Settings")
+    st.markdown("###  Configuration")
     st.markdown(f"**Model:** `{HUGGINGFACE_REPO_ID}`")
     st.markdown("**Vector Store:** FAISS")
     st.markdown("---")
     st.markdown("### 🛠 Need Help?")
     st.markdown("Contact support at : [support@AI.com](mailto:support@AI.com)")
     st.markdown("---")
-    st.markdown("🖥️ About AI")
+    st.markdown(" About AI")
     st.markdown(" Documentation : [About@AI.com](mailto:About@AI.com)")
 
 # Load FAISS Vector Store
@@ -103,6 +103,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
