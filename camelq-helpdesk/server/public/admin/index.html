@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>CamelQ Helpdesk Admin</title>
+	<link rel="stylesheet" href="/admin/styles.css" />
+</head>
+<body>
+	<div class="top">
+		<h1>CamelQ Helpdesk Admin</h1>
+		<input id="token" type="password" placeholder="Admin token" />
+		<button id="load">Load Docs</button>
+		<button id="rebuild">Rebuild KB</button>
+	</div>
+	<div class="grid">
+		<div class="list">
+			<ul id="docs"></ul>
+		</div>
+		<div class="editor">
+			<input id="title" placeholder="Title" />
+			<input id="url" placeholder="URL" />
+			<textarea id="text" placeholder="Content"></textarea>
+			<div class="actions">
+				<button id="save">Save</button>
+			</div>
+		</div>
+	</div>
+	<script src="/admin/main.js" defer></script>
+</body>
+</html>
