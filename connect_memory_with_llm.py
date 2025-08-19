@@ -21,7 +21,7 @@ def extract_text_from_pdf(pdf_path):
 # Step 2: Build FAISS Index from PDF
 index_file_path = os.path.join(DB_FAISS_PATH, "index.faiss")
 if not os.path.exists(index_file_path):
-    print("⚠️ FAISS index not found! Creating a new one...")
+    print(" FAISS index not found! Creating a new one...")
 
     # Load embedding model
     embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
@@ -81,6 +81,7 @@ response = qa_chain.invoke({'query': user_query})
 #  Step 7: Display Results
 print("\nRESULT: ", response["result"])
 print("\nSOURCE DOCUMENTS: ", response["source_documents"])
+
 
 
 
